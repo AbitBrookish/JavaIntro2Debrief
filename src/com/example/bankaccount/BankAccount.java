@@ -26,20 +26,44 @@ public class BankAccount {
         balance(double), nameOnAccount(String), accountNumber(int), accountType(String)
         These fields should not be able to be manipulated or access outside this class!
      */
-
+//    Instance Fields
+    private String nameOnAccount;
+    private String accountType;
+    private int accountNumber;
+    private double balance;
 
     /*
         Constructor method should go here
         remember to take proper input for each instance field
         then, assign that input to the appropriate field
      */
+    public BankAccount(String name, String account, int accountNumber, double balance){
+        this.nameOnAccount = name;
+        this.accountType = account;
+        this.accountNumber = accountNumber;
+        this.balance = balance;
+    }
 
 
     /*
         All your getter methods can go below
         The return type for your getter methods depends on which instance field you are getting!
      */
+    public String getName(){
+        return nameOnAccount;
+    }
 
+    public String getAccountType(){
+        return accountType;
+    }
+
+    public int getAccountNumber(){
+        return accountNumber;
+    }
+
+    public double getBalance(){
+        return balance;
+    }
 
     /*
         Here you should write your withdraw method
@@ -52,7 +76,20 @@ public class BankAccount {
             5. return true if successful
                 otherwise, return false
      */
+    public boolean withdraw(double withdrawalAmount){
+//        fee if account is checking
+        double transactionFee = accountType.equalsIgnoreCase("checking")? 1.50 : 0;
 
+//        no negative input/no overdrafting/check balance/update balance
+        if(withdrawalAmount < 0 || withdrawalAmount > balance || transactionFee > balance) {
+            System.out.println("Funds withdrawn: ");
+            return false;
+        } else {
+            balance -= (withdrawalAmount + transactionFee);
+            System.out.println("Funds withdrawn: " + withdrawalAmount);
+            return true;
+        }
+    }
 
     /*
         Here you should write your deposit method
@@ -62,14 +99,28 @@ public class BankAccount {
             2. return true if successful
                 otherwise, return false
      */
-
+    public boolean deposit(double depositAmount){
+        if(depositAmount < 0){
+            System.out.println("Funds not deposited.");
+            return false;
+        } else {
+            balance += depositAmount;
+            System.out.println("Funds deposited: " + depositAmount);
+            return true;
+        }
+    }
 
     /*
         Here you should write you toString method
         requirements:
             1. returns a String that represents all your instance field values
      */
-
+    public String toString(){
+        return "account name: " + nameOnAccount +
+                "\naccount number: " + accountNumber +
+                "\naccount type: " + accountType +
+                "\nbalance: " + balance;
+    }
 
 
 }
